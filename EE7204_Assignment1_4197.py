@@ -21,15 +21,13 @@ def reduce_levels(img, levels):
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 levels = int(input("Enter desired number of intensity levels (2, 4, 8, 16, 32, 64, 128, 256): "))
+if 256 % levels != 0 or levels < 2 or levels > 256:
+    print("Error: Please enter a valid level (must be a factor of 256).")
+    exit()
 
-current_levels = 256
-while current_levels >= levels:
-    reduced_image = reduce_levels(gray, current_levels)
-    cv2.imwrite(f"results/reduced_{current_levels}_levels.jpg", reduced_image)
-    print(f"Created image with {current_levels} intensity levels")
-    current_levels = current_levels // 2
-
-print(f"Task 1 completed: Intensity reduced from 256 to {levels} levels")
+reduced_image = reduce_levels(gray, levels)
+cv2.imwrite(f"results/reduced_{levels}_levels.jpg", reduced_image)
+print(f"Task 1 completed: Image saved with {levels} intensity levels")
 
 # Task 2: 
 avg_3x3 = cv2.blur(image, (3, 3))
